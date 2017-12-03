@@ -16,13 +16,11 @@ for ii=1:nfiles
     msize = numel(kernels);
     k = kernels(randperm(msize, 1));
     currentfilename = fullfile(in_path, imagefiles(ii).name);
-    [~, name, ext] = fileparts(currentfilename);
-    new_name = strcat(name,'_blurred',ext);
-%     fprintf("Smoothed image '%s' with kernel size %d\n", currentfilename, k);
+    [
+    fprintf("Smoothed image '%s', sigma_x = %d, sigma_y = %d\n", currentfilename, k, k);
     currentimage = imread(currentfilename);
-    img_blurred = imgaussfilt(currentimage,[k,k]);
-%     img_blurred = imgaussfilt(currentimage,[k,k],'FilterSize', k);
-    imwrite(img_blurred, fullfile(out_path, new_name));
+    
+   
 end
 
 end

@@ -6,19 +6,21 @@ close all
 clc
 
 % Define source and destiny path
-source_path = fullfile('..','Data\HSWVA\Images');
-destiny_path = fullfile('..','Data\HSWVA\Images','Results','Blurred');
+source_path = fullfile('..','..','Data\HSWVA\Images');
+destiny_path = fullfile('..','..','Data\HSWVA\Images','Results','Blurred');
 disp('--- INFORMATION ---')
 fprintf('Source path: %s\nDestiny path: %s\n', source_path, destiny_path);
-
+%% MANIPULATING DATA
 if 7 == exist(source_path, 'dir')
     % Create the new folder if it doesn't exist
     [status,msg] = mkdir(destiny_path);
     if status
-        blurrer(source_path, destiny_path)
+        % GENERATE THE BLURRED COLLECTION
+        blurrer(source_path, destiny_path);
+        blurdetection(destiny_path);
     else
-        fprintf("Error in 'mkdir' function: %s",msg);
+        fprintf("Error in 'mkdir' function: %s\n",msg);
     end
 else
-    fprintf('The path %s does not exist', source_path);
+    fprintf("The path '%s' does not exist\n", source_path);
 end
