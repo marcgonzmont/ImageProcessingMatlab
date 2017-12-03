@@ -16,8 +16,10 @@ if 7 == exist(source_path, 'dir')
     [status,msg] = mkdir(destiny_path);
     if status
         % GENERATE THE BLURRED COLLECTION
+        disp("Generating blurred collection...");
         blurrer(source_path, destiny_path);
-        blurdetection(destiny_path);
+        disp("Detecting blurred value...");
+        blurdetect(destiny_path);
     else
         fprintf("Error in 'mkdir' function: %s\n",msg);
     end
