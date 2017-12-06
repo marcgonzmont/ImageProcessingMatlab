@@ -4,7 +4,7 @@ function blurrer( in_path, out_path )
 %   in_path: source path
 %   out_path: destiny path
 
-imagefiles = dir(fullfile(in_path,'*.png'));
+imagefiles = dir(fullfile(in_path,'*.jpg'));
 nfiles = length(imagefiles);    % Number of files found
 kernels = [5, 15, 21];
 
