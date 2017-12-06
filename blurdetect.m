@@ -1,35 +1,43 @@
-function blurdetect( blurred_path )
+function blurdetect( blurred_path, blur_lvl )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
-imagefiles = dir(fullfile(blurred_path,'*.jpg'));
+imagefiles = dir(fullfile(blurred_path,'*.png'));
 nfiles = length(imagefiles);    % Number of files found
 
 for ii=1:nfiles
     currentfilename = fullfile(blurred_path, imagefiles(ii).name);
     currentimage = imread(currentfilename);
+    gray = rgb2gray(currentimage);
     lap = fspecial('laplacian', 0.2);
-    img = imfilter(currentimage, lap);
-    disp(size(currentimage));
-    disp(size(img));
-%     fprintf("Variance of the image: %1.4f\n", num2str(var(double(img))));
-    fprintf("Variance of the image (lap): %1.4f\n", num2str(max(var(double(img(:))))));
-    fprintf("Variance of the image (lap): %s\n", num2str(max(var(double(img(:))))));
-    fprintf("Variance of the image (img): %1.4f\n", num2str(max(var(double(currentimage(:))))));
-    fprintf("Variance of the image (img): %s\n", num2str(max(var(double(currentimage(:))))));
-%     fprintf("Image %s has %1.4f of variance\n", imagefiles(ii).name, num2str(max(var(double(img)))));
-%     fprintf("Image %s has %1.4f of variance (vect)\n\n", imagefiles(ii).name, num2str(max(var(double(img(:))))));
-%     position = [10 10];
-%     text_str = ['Variance: ' num2str(max(var(double(img(:)))),'%2.4f')];
-%     img_text = insertText(currentimage, position,text_str,'FontSize',18,'BoxColor', 'white','BoxOpacity',0.7,'TextColor','red');
-% %     imshow(img);
-%     imshow(img_text);
-%     k = waitforbuttonpress;
-%     if ~k
-%         pause;
-%     elseif k == 1
-%         continue;
-%     end
+    lap_img = imfilter(double(gray), lap);
+    
+    position = [10 10];
+    text_str = ['Variance: ' num2str(var(lap_img(:)))];
+    img_text = insertText(gray, position,text_str,'FontSize',18,'BoxColor', 'white','BoxOpacity',0.7,'TextColor','red');
+    
+    figure(1);
+    subplot(121);
+    imshow(img_text);
+    title("Blurred image");
+    subplot(122);
+    imshow(lap_img);
+    title("Laplacian image");
+    
+    if var(double(lap_img(:))) > blur_lvl
+        fprintf(2, "Image '%s' has %s of variance\n", imagefiles(ii).name, num2str(var(double(lap_img(:)))));
+        fprintf(2, "Dleting image...\n\n");
+        delete(currentfilename)
+    else
+        fprintf("Image '%s' has %s of variance\n", imagefiles(ii).name, num2str(var(double(lap_img(:)))));
+    end
+    
+    k = waitforbuttonpress;
+    if ~k
+        pause;
+    elseif k == 1
+        continue;
+    end
     
 end
 
