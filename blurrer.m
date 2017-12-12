@@ -1,4 +1,4 @@
-function blurrer( in_path, out_path )
+function blurrer( in_path, out_path, kernels )
 %BLURRER function applys a blur filter over all images in source path
 % and saves the results in other path
 %   in_path: source path
@@ -6,7 +6,7 @@ function blurrer( in_path, out_path )
 
 imagefiles = dir(fullfile(in_path,'*.png'));
 nfiles = length(imagefiles);    % Number of files found
-kernels = [5, 15, 21];
+
 
 fprintf("Kernel size available: ");
 disp(kernels);

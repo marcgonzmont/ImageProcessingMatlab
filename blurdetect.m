@@ -14,15 +14,11 @@ for ii=1:nfiles
     
     position = [10 10];
     text_str = ['Variance: ' num2str(var(lap_img(:)))];
-    img_text = insertText(gray, position,text_str,'FontSize',18,'BoxColor', 'white','BoxOpacity',0.7,'TextColor','red');
-    
-    figure(1);
-    subplot(121);
+    img_text = insertText(currentimage, position,text_str,'FontSize',18,'BoxColor', 'white','BoxOpacity',0.7,'TextColor','red');
+    figure('Name','Codebar Detection','NumberTitle','off');
     imshow(img_text);
-    title("Blurred image");
-    subplot(122);
-    imshow(lap_img);
-    title("Laplacian image");
+%     figure(1);
+%     imshow(img_text);
     
     if var(double(lap_img(:))) > blur_lvl
         fprintf(2, "Image '%s' has %s of variance\n", imagefiles(ii).name, num2str(var(double(lap_img(:)))));
@@ -36,10 +32,12 @@ for ii=1:nfiles
     if ~k
         pause;
     elseif k == 1
+        close all;
         continue;
     end
     
 end
+close all;
 
 end
 

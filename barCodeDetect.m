@@ -1,4 +1,4 @@
-function barCodeDetect( file, scale, threshold, k_med, k_close, k_e_c, times )
+function barCodeDetect( file, scale, k_med, k_close, k_e_c, times )
 %BARCODEDETECT Summary of this function goes here
 %   Detailed explanation goes here
     % Gradient computation
@@ -6,7 +6,7 @@ function barCodeDetect( file, scale, threshold, k_med, k_close, k_e_c, times )
     img_grad = getGradXY(original);
     % Median filter
     img_cln = medfilt2(img_grad, k_med);
-%     img_cln = imgaussfilt(img_grad, k_med);
+    % img_cln = imgaussfilt(img_grad, k_med);
     % Use Otsu threshold due to the poor results with a threshold 200/255
     [counts,~] = imhist(img_cln);
     thr = otsuthresh(counts);
@@ -16,7 +16,7 @@ function barCodeDetect( file, scale, threshold, k_med, k_close, k_e_c, times )
     figure('Name','Codebar Detection','NumberTitle','off');
     imshow(original);
     hold on;
-    stats = sortrows(regionprops('table', img_thresh, 'Area', 'BoundingBox'), 1, 'descend')
+    stats = sortrows(regionprops('table', img_thresh, 'Area', 'BoundingBox'), 1, 'descend');
     [~,index] = max([stats.Area]);
     
     bbox = stats.BoundingBox(index,:);

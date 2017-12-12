@@ -1,6 +1,7 @@
 %% DEFINE THE ENVIRONMENT
 close all, clear all, clc;
 video_name = '';
+path = '..\..\Data\HSWVA\frames';
 lower_color = [29 43 126];
 upper_color = [88 255 255];
 dim = 5; % dimension of squared structuring element
@@ -20,7 +21,6 @@ if exist(video_name, 'var') == 1
 else
 %% READ FRAMES AND WORK ON EACH ONE
     % Using natsortfiles. See: https://goo.gl/q3EMM3
-    path = '..\..\Data\HSWVA\frames';
     frame_inf = dir(fullfile(path,'*.jpg'));
     frame_name = natsortfiles({frame_inf.name});
     for frame = 1:numel(frame_name)
