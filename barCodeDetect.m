@@ -7,7 +7,7 @@ function barCodeDetect( file, scale, threshold, k_med, k_close, k_e_c, times )
     % Median filter
     img_cln = medfilt2(img_grad, k_med);
 %     img_cln = imgaussfilt(img_grad, k_med);
-    % Use Otsu threshold due to the results with a threshold 200/255
+    % Use Otsu threshold due to the poor results with a threshold 200/255
     [counts,~] = imhist(img_cln);
     thr = otsuthresh(counts);
     img_thresh = imbinarize(img_cln, thr);
