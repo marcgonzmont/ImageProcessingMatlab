@@ -1,38 +1,35 @@
 %% DEFINE THE ENVIRONMENT
 close all, clear all, clc;
-file_name = '..\..\Data\HSWVA\lapiz.avi';
-% image = imread('..\..\Data\HSWVA\frame16.jpg');
-path = '..\..\Data\HSWVA\frames';
-% img_hsv = rgb2hsv(image);
-% Define the lower and upper color (HSV)
+% video_name = '..\..\Data\HSWVA\lapiz.avi';
 lower_color = [29 43 126];
 upper_color = [88 255 255];
-dim = 5; %dimension of squared structuring element
+dim = 5; % dimension of squared structuring element
 
 %% READ THE VIDEO AND WORK ON EACH FRAME
-% checkVideo(file_name);
+if exist(video_name) == 1 
+    % checkVideo(file_name);
+    % fmts = VideoReader.getFileFormats();
 
-% video = VideoReader('lapiz.avi');
-% fmts = VideoReader.getFileFormats();
-% while hasFrame(video)
-%     frame = readFrame(video);
-%     [BW, masked] = maskHSV( frame, lower_color, upper_color );
-% end
-% whos frame
+    video = VideoReader(video_name);
+    while hasFrame(video)
+        frame = readFrame(video);
+        colorTracking(frame, lower_color, upper_color, dim);
+        pause(0.033);
+    end
+else
 %% READ FRAMES AND WORK ON EACH ONE
-% Using natsortfiles. See: https://goo.gl/q3EMM3
-frame_inf = dir(fullfile(path,'*.jpg'));
-frame_name = natsortfiles({frame_inf.name});
-
-for frame = 1:numel(frame_name(1))
-%     imshow(fullfile(path, frame_name{frame}));
-    img = imread(fullfile(path, frame_name{frame}));
-    [BW, ~] = maskHSV( img, lower_color, upper_color );
-    img_cln = imgClean(BW, dim);
-    stats = regionprops('table',img_cln,'Centroid',...
-    'Area')
-    pause(0.033);
+    % Using natsortfiles. See: https://goo.gl/q3EMM3
+    path = '..\..\Data\HSWVA\frames';
+    frame_inf = dir(fullfile(path,'*.jpg'));
+    frame_name = natsortfiles({frame_inf.name});
+%     pts = int8.empty(20);
+    for frame = 1:numel(frame_name)
+        file = fullfile(path, frame_name{frame});
+        colorTracking(file, lower_color, upper_color, dim);
+        pause(0.033);
+    end
 end
+close all
 
 
 % figure(1);
