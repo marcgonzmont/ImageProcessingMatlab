@@ -1,10 +1,10 @@
-function colorTracking( frame_name, lower_color, upper_color, dim )
+function colorTracking( frame_name, lower_color, upper_color, dim, times )
 %COLORTRACKING Summary of this function goes here
 %   Detailed explanation goes here
 %     imshow(fullfile(path, frame_name{frame}));
     img = imread(frame_name);
     [BW, ~] = maskHSV( img, lower_color, upper_color );
-    img_cln = imgClean(BW, dim);
+    img_cln = imgCleanED(BW, dim, times);
     stats = regionprops('table', img_cln, 'Centroid', 'Area', 'MajorAxisLength', 'MinorAxisLength');
     [maxValue,index] = max([stats.Area]);
     imshow(img);

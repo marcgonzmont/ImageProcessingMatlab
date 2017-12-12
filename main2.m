@@ -1,19 +1,20 @@
 %% DEFINE THE ENVIRONMENT
 close all, clear all, clc;
-% video_name = '..\..\Data\HSWVA\lapiz.avi';
+video_name = '';
 lower_color = [29 43 126];
 upper_color = [88 255 255];
 dim = 5; % dimension of squared structuring element
+times = 2;
 
 %% READ THE VIDEO AND WORK ON EACH FRAME
-if exist(video_name) == 1 
+if exist(video_name, 'var') == 1
     % checkVideo(file_name);
     % fmts = VideoReader.getFileFormats();
 
     video = VideoReader(video_name);
     while hasFrame(video)
         frame = readFrame(video);
-        colorTracking(frame, lower_color, upper_color, dim);
+        colorTracking(frame, lower_color, upper_color, dim, times);
         pause(0.033);
     end
 else
@@ -22,10 +23,9 @@ else
     path = '..\..\Data\HSWVA\frames';
     frame_inf = dir(fullfile(path,'*.jpg'));
     frame_name = natsortfiles({frame_inf.name});
-%     pts = int8.empty(20);
     for frame = 1:numel(frame_name)
         file = fullfile(path, frame_name{frame});
-        colorTracking(file, lower_color, upper_color, dim);
+        colorTracking(file, lower_color, upper_color, dim, times);
         pause(0.033);
     end
 end
